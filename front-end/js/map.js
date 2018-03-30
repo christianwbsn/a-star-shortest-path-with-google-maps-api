@@ -7,7 +7,7 @@ var nodes = [];
 var state = "Node";
 var edge = [];
 var edgeList = [];
-
+var stfin = [];
 function initialize() {
     var bandung ={lat: -6.890345, lng: 107.610403}
     var noPoi = [
@@ -134,20 +134,37 @@ function addEdge(){
 }
 
 function nextState() {
-    if(state = "Node") {
+    if(state == "Node") {
         document.getElementById("deleteButton").remove();
         state = "Edge";
-        document.getElementById("stateButton").value="Next: Calculate Route";
+        document.getElementById("stateButton").value="Next: Define Start and End";
         document.getElementById("cardcontent").innerHTML = "Click on 2 nodes to define the edge between those nodes of the graph";
         document.getElementById("cardtitle").innerHTML = "Add Edge";
         google.maps.event.clearListeners(map, 'click');
         addEdge();
-    } else if (state = "Edge") {
+    } else if (state == "Edge") {
         for(let marker of markers){
             google.maps.event.clearListeners(marker, 'click');
         }
+        document.getElementById("cardtitle").innerHTML = "Define your starting and end node";
+        console.log("Define Start and Finish");
+        document.getElementById("stateButton").value="Next: Calculate Route";
+        for(let marker of markers){
+            google.maps.event.addListener(marker, 'click', function(event) {
+                //Change the marker icon
+                stfin.push(marker);
+                if(stfin.length < 3 ){
+                    marker.setIcon('http://www.googlemapsmarkers.com/v1/009900/');
+                }
+                if (stfin.length == 2){
+                    document.getElementById("cardcontent").innerHTML = "Start: "+ stfin[0].label +"\n" + "Finish: "+stfin[1].label;
+                }
+            });
+        }
+        state = "Calculate"
+    } else if (state == "Calculate") {
+        console.log("Calculating...");
         document.getElementById("cardcontent").innerHTML = "1-2-3-4-5-6";
         document.getElementById("cardtitle").innerHTML = "Shortest Path";
-        state = "Calculate";
     }
 }

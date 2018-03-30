@@ -10,9 +10,9 @@ html, body {
 
 #floating-card {
     position: absolute;
-    width : 500px;
+    min-width : 500px;
     z-index: 5;
-    top: 2%;
+    top: 3%;
     right :1%;
 }
 
