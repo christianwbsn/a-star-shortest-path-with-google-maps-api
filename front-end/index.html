@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>A* Shortest Path</title>
+        <link rel="icon" href="images/1.png" type="image">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css\style.css" />
+        <script src="js/map.js"></script>
+  </head>
+  <body>
+    <div id="floating-card">
+      <div class="row">
+        <div class="col-sm-6 offset-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" id="cardtitle">Add Node</h5>
+                <p class="card-text" id="cardcontent">Click on the road intersection or end-road to define the node.</p>
+                <input class="btn btn-primary" id="stateButton" onclick="nextState()" type=button value="Next: Add Edge">
+                <button class="btn btn-danger" id="deleteButton" onclick="deleteMarkers()" type=button value="Delete Markers">Delete All</button>
+              </div>
+            </div>
+          </div>
+        </div>  
+    </div>
+  <div id="floating-panel">
+    </div>
+    <input id="pac-input" class="form-control" type="text" placeholder="Search Place Here...">
+    <div id="map"></div>
+  </body>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbLjabqCJO3f8mFextycjf3Kvg-Yfu6Jo&libraries=places&callback=initialize"
+  async defer></script>
+</html>

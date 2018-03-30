@@ -1,0 +1,35 @@
+#map {
+    height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#floating-card {
+    position: absolute;
+    width : 500px;
+    z-index: 5;
+    top: 2%;
+    right :1%;
+}
+
+
+#pac-input {
+    margin-top : 10px;
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
+    height: 30px;
+  }
+
+  #pac-input:focus {
+    border-color: #4d90fe;
+  }
