@@ -152,18 +152,34 @@ function nextState() {
         for(let marker of markers){
             google.maps.event.addListener(marker, 'click', function(event) {
                 //Change the marker icon
-                stfin.push(marker);
+                stfin.push(0+ marker.label -1);
+                var icon = {
+                    scaledSize: new google.maps.Size(40,40),
+                }
                 if(stfin.length < 3 ){
-                    marker.setIcon('http://www.googlemapsmarkers.com/v1/009900/');
+                    console.log(stfin[stfin.length-1]);
                 }
                 if (stfin.length == 2){
-                    document.getElementById("cardcontent").innerHTML = "Start: "+ stfin[0].label +"\n" + "Finish: "+stfin[1].label;
+                    document.getElementById("cardcontent").innerHTML = "Start Node: "+ stfin[0] +"<br>" + "Finish Node: "+stfin[1];
                 }
             });
         }
         state = "Calculate"
     } else if (state == "Calculate") {
         console.log("Calculating...");
+        var xhr = new XMLHttpRequest();
+        var url = "https://localhost:5000/a-star";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                console.log(json);
+            }
+        };
+        var data = JSON.stringify({node:nodes,edge:edgeList,start:stfin[0],end:stfin[1]});
+        console.log(data);
+        xhr.send(data);
         document.getElementById("cardcontent").innerHTML = "1-2-3-4-5-6";
         document.getElementById("cardtitle").innerHTML = "Shortest Path";
     }
