@@ -168,7 +168,7 @@ function nextState() {
     } else if (state == "Calculate") {
         console.log("Calculating...");
         var xhr = new XMLHttpRequest();
-        var url = "https://localhost:5000/a-star";
+        var url = "http://localhost:5000/a-star";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function () {
@@ -177,7 +177,12 @@ function nextState() {
                 console.log(json);
             }
         };
-        var data = JSON.stringify({node:nodes,edge:edgeList,start:stfin[0],end:stfin[1]});
+        var data = {
+            node  : JSON.stringify(nodes),
+            edge  : JSON.stringify(edgeList),
+            start : stfin[0],
+            end   : stfin[1]
+        }
         console.log(data);
         xhr.send(data);
         document.getElementById("cardcontent").innerHTML = "1-2-3-4-5-6";
