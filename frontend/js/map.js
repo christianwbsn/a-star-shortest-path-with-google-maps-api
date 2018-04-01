@@ -8,7 +8,8 @@ var state = "Node";
 var edge = [];
 var edgeList = [];
 var stfin = [];
-function initialize() {
+
+function initMap() {
     var bandung ={lat: -6.890345, lng: 107.610403}
     var noPoi = [
         {
@@ -69,6 +70,8 @@ function initialize() {
             nodes.push({lat:lat,lng:lng});
         }
     });
+
+    $("#stateButton").hide()
 }
 
 // Adds a marker to the map.
@@ -81,6 +84,9 @@ function addNode(location, map) {
     map: map
   });
   markers.push(marker);
+  if (markers.length >= 2) {
+    $("#stateButton").show()
+  }
 }
 
 function drawLine(location, map){
@@ -166,25 +172,26 @@ function nextState() {
         }
         state = "Calculate"
     } else if (state == "Calculate") {
+        var formData = new FormData();
+        formData.append('node' , JSON.stringify(nodes))
+        formData.append('edge' , JSON.stringify(edgeList))
+        formData.append('start', stfin[0])
+        formData.append('end'  , stfin[1])
+
         console.log("Calculating...");
-        var xhr = new XMLHttpRequest();
-        var url = "http://localhost:5000/a-star";
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var json = JSON.parse(xhr.responseText);
-                console.log(json);
+        $.post({
+            type: 'POST',
+            url : 'http://localhost:5000/a-star',
+            data: {
+                node  : JSON.stringify(nodes),
+                edge  : JSON.stringify(edgeList),
+                start : stfin[0],
+                end   : stfin[1]
+            },
+            success: (data) => {
+                console.log(data)
             }
-        };
-        var data = {
-            node  : JSON.stringify(nodes),
-            edge  : JSON.stringify(edgeList),
-            start : stfin[0],
-            end   : stfin[1]
-        }
-        console.log(data);
-        xhr.send(data);
+        })
         document.getElementById("cardcontent").innerHTML = "1-2-3-4-5-6";
         document.getElementById("cardtitle").innerHTML = "Shortest Path";
     }
