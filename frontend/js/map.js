@@ -102,12 +102,12 @@ function addNode(location, map) {
 	}
 }
 
-function drawLine(location, map){
+function drawLine(location, map, color){
 	new google.maps.Polyline({
 		map : map,
 		path: location,
 		geodesic: true,
-		strokeColor: '#FF0000',
+		strokeColor: color,
 		strokeOpacity: 1.0,
 		strokeWeight: 4
 	})
@@ -140,7 +140,7 @@ function addEdge(){
 				//edge[0].idx
 			} else if (edge.length == 2) {
 				let path = [edge[0].latLng ,edge[1].latLng]
-				drawLine(path,map)
+				drawLine(path,map,'#FF0000')
 				edgeList.push({a:edge[0].idx , b:edge[1].idx})
 				edge = []
 			}
@@ -156,6 +156,9 @@ function nextState() {
 		$('#cardContent').html('Click on 2 nodes to define the edge between those nodes of the graph')
 		$('#cardTitle').html('Add Edge')
 		google.maps.event.clearListeners(map, 'click')
+		for (let marker of markers) {
+			google.maps.event.clearListeners(marker, 'click')
+		}
 		addEdge()
 	} else if (state == 'Edge') {
 		for (let marker of markers) {
@@ -169,9 +172,9 @@ function nextState() {
 				stfin.push(0 + marker.label - 1)
 				var icon = { 	scaledSize: new google.maps.Size(40,40) }
 				if (stfin.length == 1) {
-					$('#cardContent').html('Start Node: ' + stfin[0])
+					$('#cardContent').html('Start Node: ' + (stfin[0] + 1))
 				} else if (stfin.length == 2) {
-					$('#cardContent').html('Start Node: ' + stfin[0] + ' <br/> ' + 'Finish Node: ' + stfin[1])
+					$('#cardContent').html('Start Node: ' + (stfin[0] + 1) + ' <br/> ' + 'Finish Node: ' + (stfin[1] + 1))
 				}
 			})
 		}
@@ -187,10 +190,27 @@ function nextState() {
 				end   : stfin[1]
 			},
 			success: (data) => {
-				console.log(data)
+				var route = ''
+				var shortestPath = []
+				console.log(data.distance)
+				for(var i = 0; i < data.route.length; i++) {
+					route += (data.route[i] + 1)
+					if(i != (data.route.length-1)) {
+						route += ' - '  
+					}
+					if(i == (data.route.length-1)) {
+						route += '<br> Distance: ' + data.distance
+					}
+					for(let marker of markers) {
+						if(data.route[i] == (marker.label-1)) {
+							shortestPath.push(marker.position)
+						}
+					}
+				}
+				$('#cardContent').html(route)
+				drawLine(shortestPath,map,'#000000')
 			}
 		})
-		$('#cardContent').html('1-2-3-4-5-6')
 		$('#cardTitle').html('Shortest Path')
 	}
 }

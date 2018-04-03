@@ -48,7 +48,10 @@ class Graph:
 		while (last != self.idxStart):
 			last = pre[last]
 			route = [last] + route
-		return route
+		return {
+			'route': route,
+			'distance': dist[self.idxEnd]
+		}
 
 	def dd(self):
 		return {
