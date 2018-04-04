@@ -20,7 +20,7 @@ class Graph:
 		self.idxEnd = _end
 
 	def calcDist(self, a, b):
-		return math.sqrt(
+		return 111 * math.sqrt(
 			(self.node[a][0] - self.node[b][0]) * (self.node[a][0] - self.node[b][0]) +
 			(self.node[a][1] - self.node[b][1]) * (self.node[a][1] - self.node[b][1]))
 
@@ -51,14 +51,6 @@ class Graph:
 		return {
 			'route': route,
 			'distance': dist[self.idxEnd]
-		}
-
-	def dd(self):
-		return {
-			'node': self.node,
-			'adj' : self.adj,
-			'idxStart': self.idxStart,
-			'idxEnd'  : self.idxEnd
 		}
 
 def receive(req):

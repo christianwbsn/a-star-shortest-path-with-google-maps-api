@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/a-star', methods=['POST', 'OPTIONS', 'GET'])
 @crossdomain(origin='*')
-def hello_world():
+def astarRoute():
 	if (request.method == 'POST'):
 		print(request.form)
 		return jsonify(astar.receive(request.form))

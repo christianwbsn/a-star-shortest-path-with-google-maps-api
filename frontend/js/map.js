@@ -108,7 +108,7 @@ function drawLine(location, map, color){
 		path: location,
 		geodesic: true,
 		strokeColor: color,
-		strokeOpacity: 1.0,
+		strokeOpacity: 0.5,
 		strokeWeight: 4
 	})
 }
@@ -208,7 +208,7 @@ function nextState() {
 					}
 				}
 				$('#cardContent').html(route)
-				drawLine(shortestPath,map,'#000000')
+				drawLine(shortestPath,map,'#0000FF')
 			}
 		})
 		$('#cardTitle').html('Shortest Path')
